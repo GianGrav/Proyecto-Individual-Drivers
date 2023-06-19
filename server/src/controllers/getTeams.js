@@ -16,7 +16,7 @@ const getTeams = async (req, res) => {
       await Teams.create({ name: team });
     }
 
-    res.status(200).json({ message: 'Tabla Teams creada exitosamente' });
+    res.status(200).json(teams);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los teams' });
   }

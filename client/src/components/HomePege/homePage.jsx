@@ -36,7 +36,7 @@ const HomePage = () => {
     };
 
     return (
-        <div>
+        <div className={Style.homePage}>
             <div>
                 {page > 0 && (
                     <button type="" onClick={() => setPage(0)}>{'<<'}</button>
@@ -47,16 +47,15 @@ const HomePage = () => {
                 )}
             </div>
 
-            <div>
+            <div className={Style.cards}>
                 {
                     allDrivers.slice(0 + (page * driversPerPage), driversPerPage + (page * driversPerPage)).map(({ id, name, lastName, teams, image }) => {
-                        console.log(image);
                         return (
                             <>
                                 <DriverCard
                                     id={id}
-                                    key={id + ' ' + name}
-                                    image={image.url}
+                                    key={id}
+                                    image={image}
                                     name={name}
                                     lastName={lastName}
                                     teams={teams}

@@ -70,22 +70,3 @@
     font-weight: 400;
     font-style: italic;
 }
-
-/*Hover*/
-/* .card:hover{
-    --size: 110px;
-    width: var(--size);
-    height: var(--size);
-} */
-
-/* .card_img :hover{
-    --size: 110px;
-    width: var(--size);
-    height: var(--size);
-} */
-
-/* .card_img_2 :hover{
-    --size: 110px;
-    width: var(--size);
-    height: var(--size);
-} */

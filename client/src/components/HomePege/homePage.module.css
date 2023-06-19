@@ -1,0 +1,15 @@
+.homePage {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cards {
+    background-position: center center;
+    display: grid;
+    gap:3em;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+    padding: 2em;
+    margin: 2em;
+}

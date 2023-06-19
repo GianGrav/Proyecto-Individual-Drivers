@@ -1,28 +1,49 @@
 import Style from './driverCard.module.css';
+import { Link } from 'react-router-dom';
 
-const DriverCard = ({ id, name, image, teams }) => {
+const DriverCard = ({ id, name, image, teams, lastName }) => {
+    let forename, surname;
+    let imageUrl;
 
+    if (name && lastName) {
+        forename = name;
+        surname = lastName;
+    } else if (name && name.forename && name.surname) {
+        forename = name.forename;
+        surname = name.surname;
+    }
+
+    if (image && image.url) {
+        imageUrl = image.url;
+    } else if (typeof image === 'string') {
+        imageUrl = image;
+    }
 
     return (
         <div className={Style.card}>
-            <link to={`/details/${id}`} />
-            <div className={Style.card_img}>
-                <img src={image} alt={`Image of ${name.forename.slice(0,1).toUpperCase() + name.forename.slice(1)}`}/>
-            </div>
-            <div className={Style.card_info}>
-                <div className={Style.text_body}>
-                    <h2>{`${name.forename.slice(0,1).toUpperCase() + name.forename.slice(1)}} ${name.surname.slice(0,1).toUpperCase() + name.surname.slice(1)}}`}</h2>
-                    <h2>{`Teams: ${teams}`}</h2>
+            <Link to={`/details/${id}`}>
+                <div className={Style.card_img}>
+                    <img
+                        className={Style.card_img_2}
+                        src={imageUrl}
+                        alt={`Image of ${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)}`}
+                    />
                 </div>
-                <p className={Style.text_title}>{`ID: ${id}`}</p>
-            </div>
+                <div className={Style.card_info}>
+                    <div className={Style.text_body}>
+                        <h2>
+                            {`${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname && surname.slice(0, 1).toUpperCase() + surname.slice(1)
+                                }`}
+                        </h2>
+                        <h2>{`Teams: ${teams}`}</h2>
+                    </div>
+                </div>
+            </Link>
         </div>
-    )
-
+    );
 };
 
 export default DriverCard;
-
 
 {/* <div className={Style.card}>
     <link to={`/details/${id}`} />
