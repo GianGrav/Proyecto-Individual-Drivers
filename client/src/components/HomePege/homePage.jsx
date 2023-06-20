@@ -29,7 +29,7 @@ const HomePage = () => {
 
         return Array.from({ length: endPage - startPage }).map((_, i) => {
             const pageNumber = startPage + i;
-            const buttonClass = pageNumber === page ? '' : ''; // Aplica estilos diferentes a la página seleccionada
+            const buttonClass = pageNumber === page ? '' : ''; // posibles estilos
             return (
                 <button className={buttonClass} type="" key={pageNumber} onClick={() => setPage(pageNumber)}>{pageNumber + 1}</button>
             );

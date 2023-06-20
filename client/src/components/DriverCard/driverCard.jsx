@@ -1,4 +1,5 @@
-import Style from './driverCard.module.css';
+import React from 'react';
+import styles from './driverCard.module.css';
 import { Link } from 'react-router-dom';
 
 const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
@@ -24,21 +25,21 @@ const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
     if (teams) {
         teamsText = teams;
     } else if (Teams && Teams.length > 0) {
-        teamsText = Teams[0].name;
+        teamsText = Teams.map(team => team.name).join(', ');
     }
 
     return (
-        <div className={Style.card}>
+        <div className={styles.card}>
             <Link to={`/details/${id}`}>
-                <div className={Style.card_img}>
+                <div className={styles.card_img}>
                     <img
-                        className={Style.card_img_2}
+                        className={styles.card_img_2}
                         src={imageUrl}
                         alt={`Image of ${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)}`}
                     />
                 </div>
-                <div className={Style.card_info}>
-                    <div className={Style.text_body}>
+                <div className={styles.card_info}>
+                    <div className={styles.text_body}>
                         <h2>
                             {`${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname && surname.slice(0, 1).toUpperCase() + surname.slice(1)}`}
                         </h2>

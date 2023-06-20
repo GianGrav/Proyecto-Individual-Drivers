@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
 import axios from 'axios';
-
 import { getDrivers, postDrivers } from '../../redux/driverSlice';
 
 const DriverForm = () => {
@@ -40,11 +38,20 @@ const DriverForm = () => {
     };
 
     const handleTeamChange = (event) => {
-        const selectedTeams = Array.from(event.target.selectedOptions, option => option.value);
-        setDriverData({
-            ...driverData,
-            teams: selectedTeams
-        });
+        const { value, checked } = event.target;
+        const teamId = parseInt(value);
+
+        if (checked) {
+            setDriverData((prevState) => ({
+                ...prevState,
+                teams: [...prevState.teams, teamId]
+            }));
+        } else {
+            setDriverData((prevState) => ({
+                ...prevState,
+                teams: prevState.teams.filter((team) => team !== teamId)
+            }));
+        }
         validate();
     };
 
@@ -159,16 +166,22 @@ const DriverForm = () => {
                 <br />
 
                 <div>
-                    <label htmlFor="teams">Teams:</label><br />
-                    <select name="teams" multiple value={driverData.teams} onChange={handleTeamChange}>
-                        {Array.isArray(teams) &&
-                            teams.map((team) => (
-                                <option key={team.id} value={team.id}>
-                                    {team.name}
-                                </option>
-                            ))
-                        }
-                    </select>
+                    <label htmlFor="teams">Teams:</label>
+                    <br />
+                    {Array.isArray(teams) &&
+                        teams.map((team) => (
+                            <div key={team.id}>
+                                <input
+                                    type="checkbox"
+                                    id={team.id}
+                                    name="teams"
+                                    value={team.id}
+                                    checked={driverData.teams.includes(team.id)}
+                                    onChange={handleTeamChange}
+                                />
+                                <label htmlFor={team.id}>{team.name}</label>
+                            </div>
+                        ))}
                 </div>
                 <br />
 
@@ -181,3 +194,8 @@ const DriverForm = () => {
 };
 
 export default DriverForm;
+
+
+
+
+

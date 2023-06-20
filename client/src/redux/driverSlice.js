@@ -37,13 +37,12 @@ export const driverSlice = createSlice({
         : driversCopy.sort((a, b) => new Date(b.dob) - new Date(a.dob));
     },
     filterByTeams: (state, { payload }) => {
-      const { drivers, allDrivers } = state;
-    
-      const filteredDrivers = drivers.filter(driver => {
-        const teams = driver.teams.split(", "); // Dividir la cadena de texto en un array de equipos
-        return teams.some(team => team.name === payload.trim()); // Utilizar trim() para eliminar espacios en blanco alrededor del nombre del equipo
+      const filteredDrivers = state.allDrivers.filter((driver) => {
+        const driverTeams = driver.teams ? driver.teams.split(",").map((team) => team.trim()) : [];
+        const databaseTeams = driver.Teams ? driver.Teams.map((team) => team.name) : [];
+        const allTeams = [...driverTeams, ...databaseTeams];
+        return allTeams.some((team) => team === payload);
       });
-    
       state.allDrivers = filteredDrivers;
     },
     filterByOrigin: (state, { payload }) => {

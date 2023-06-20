@@ -55,7 +55,10 @@ const NavBar = () => {
   };
 
   const handleFilterByTeams = (event) => {
-    dispatch(filterByTeams(event.target.value));
+    const selectedTeamId = event.target.value;
+    const selectedTeam = teams.find((team) => team.id === selectedTeamId);
+    const selectedTeamName = selectedTeam ? selectedTeam.name : null;
+    dispatch(filterByTeams(selectedTeamName));
   };
 
   const handleFilterByOrigin = (event) => {
@@ -70,15 +73,16 @@ const NavBar = () => {
         </Link>
       </div>
 
-      <div>
-        {pathname === '/home' ? <SearchBar /> : null}
-      </div>
+      <div>{pathname === "/home" ? <SearchBar /> : null}</div>
 
       <div>
         {pathname === "/home" && (
           <>
             <div>
-              <select name="alphabetical" onChange={(e) => handleOrderByAtoZ(e.target.value)}>
+              <select
+                name="alphabetical"
+                onChange={(e) => handleOrderByAtoZ(e.target.value)}
+              >
                 <option disabled defaultValue>
                   Alphabetical Order
                 </option>
