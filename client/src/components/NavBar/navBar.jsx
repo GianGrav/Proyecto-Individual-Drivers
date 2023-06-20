@@ -130,9 +130,9 @@ const NavBar = () => {
         )}
       </div>
 
-      {pathname !== "/newDriver" && (
+      {pathname !== "/newdriver" && (
         <div>
-          <Link to="/newDriver">
+          <Link to="/newdriver">
             <button>Create Driver</button>
           </Link>
         </div>

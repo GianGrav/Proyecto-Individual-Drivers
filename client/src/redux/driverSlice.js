@@ -72,7 +72,28 @@ export const driverSlice = createSlice({
     getDriverByName: (state, { payload }) => {
       const data = payload;
       state.allDrivers = data;
-      state.drivers = data;
+      state.drivers = data; 
+    },
+    addDriver: async (state, { payload }) => {
+      const newDriver = {
+        name: payload.name,
+        lastName: payload.lastName,
+        nationality: payload.nationality,
+        image: payload.image,
+        dateOfBirth: payload.dateOfBirth,
+        description: payload.description,
+        teams: payload.selectedTeams,
+      };
+    
+      try {
+        const response = await axios.post('http://localhost:3001/drivers', newDriver);
+        const createdDriver = response.data;
+        const updatedDrivers = [...state.allDrivers, createdDriver];
+        return { ...state, allDrivers: updatedDrivers };
+      } catch (error) {
+        console.log('Error al crear el conductor:', error);
+        return state;
+      }
     },
   },
 });
@@ -86,6 +107,7 @@ export const {
   filterByOrigin,
   getDriverByName,
   getTeams,
+  addDriver,
 } = driverSlice.actions;
 
 export default driverSlice.reducer;
