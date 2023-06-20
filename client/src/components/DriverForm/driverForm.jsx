@@ -23,8 +23,8 @@ const DriverForm = () => {
         birthDate: '',
         teams: []
     });
-    
-    console.log(driverData); 
+
+    console.log(driverData);
     const [error, setError] = useState({});
 
     useEffect(() => {
@@ -63,6 +63,26 @@ const DriverForm = () => {
             errorValidate.name = 'Name must contain only characters';
         }
 
+        if (driverData.lastName.length === 0) {
+            errorValidate.lastName = 'Last name must be provided';
+        }
+
+        if (driverData.lastName.length >= 50) {
+            errorValidate.lastName = 'Last name can only have 50 characters';
+        }
+
+        if (driverData.lastName.length > 0 && !/^[^0-9]*$/.test(driverData.lastName)) {
+            errorValidate.lastName = 'Last name must contain only characters';
+        }
+
+        if (driverData.nationality.length === 0) {
+            errorValidate.nationality = 'Nationality must be provided';
+        }
+
+        if (driverData.description.length < 1 || driverData.description.length > 400) {
+            errorValidate.description = 'Description must be between 1 and 400 characters';
+        }
+
         setError(errorValidate);
     };
 
@@ -92,7 +112,7 @@ const DriverForm = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Name:</label><br />
-                    <input required type="text" name="name" value={driverData.name} onChange={handleChange} />
+                    <input required type="text" name="name" value={driverData.name} onChange={handleChange} placeholder="Enter name" />
                     {
                         error.name && <p>{error.name}</p>
                     }
@@ -101,19 +121,25 @@ const DriverForm = () => {
 
                 <div>
                     <label htmlFor="lastName">Last Name:</label><br />
-                    <input required type="text" name="lastName" value={driverData.lastName} onChange={handleChange} />
+                    <input required type="text" name="lastName" value={driverData.lastName} onChange={handleChange} placeholder="Enter last name" />
+                    {
+                        error.lastName && <p>{error.lastName}</p>
+                    }
                 </div>
                 <br />
 
                 <div>
                     <label htmlFor="nationality">Nationality:</label><br />
-                    <input required type="text" name="nationality" value={driverData.nationality} onChange={handleChange} />
+                    <input required type="text" name="nationality" value={driverData.nationality} onChange={handleChange} placeholder="Enter nationality" />
+                    {
+                        error.nationality && <p>{error.nationality}</p>
+                    }
                 </div>
                 <br />
 
                 <div>
                     <label htmlFor="image">Image:</label><br />
-                    <input required type="text" name="image" value={driverData.image} onChange={handleChange} />
+                    <input required type="text" name="image" value={driverData.image} onChange={handleChange} placeholder="Enter image URL" />
                 </div>
                 <br />
 
@@ -125,7 +151,10 @@ const DriverForm = () => {
 
                 <div>
                     <label htmlFor="description">Description:</label><br />
-                    <textarea required name="description" value={driverData.description} onChange={handleChange}></textarea>
+                    <textarea required name="description" value={driverData.description} onChange={handleChange} placeholder="Enter description"></textarea>
+                    {
+                        error.description && <p>{error.description}</p>
+                    }
                 </div>
                 <br />
 
