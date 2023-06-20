@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Driver } = require('../db');
+const { Driver, Teams } = require('../db');
 const { Op } = require('sequelize');
 
 const getDriversByName = async (req, res) => {
@@ -13,8 +13,12 @@ const getDriversByName = async (req, res) => {
         const dbDrivers = await Driver.findAll({
             where: {
                 name: { [Op.iLike]: `%${name}%` }
+                
             },
-            limit: 15
+            limit: 15,
+            include: {
+                model: Teams
+            }
         });
 
         const driversByName = [...apiDrivers, ...dbDrivers];

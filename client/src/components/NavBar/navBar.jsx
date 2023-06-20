@@ -40,7 +40,6 @@ const NavBar = () => {
   const getTeamsDrivers = async () => {
     try {
       const { data } = await axios(URLT);
-      console.log(data);
       dispatch(getTeams(data));
     } catch (error) {
       throw error.message;
@@ -110,8 +109,8 @@ const NavBar = () => {
                 </option>
                 {Array.isArray(teams) &&
                   teams.map((team, index) => (
-                    <option key={index} value={team}>
-                      {team}
+                    <option key={index} value={team.id}>
+                      {team.name}
                     </option>
                   ))}
               </select>

@@ -25,17 +25,8 @@ const SearchBar = () => {
     const handleSearch = async () => {
         const { data } = await axios(`http://localhost:3001/drivers/name?name=${search}`)
         dispatch(getDriverByName(data))
+        console.log(data);
     }
-
-    useEffect(() => {
-        // Aquí puedes colocar cualquier otra lógica que quieras ejecutar al inicio
-        // ...
-
-        return () => {
-            // Aquí puedes colocar cualquier limpieza necesaria antes de desmontar el componente
-            // ...
-        }
-    }, [])
 
     return (
         <div>

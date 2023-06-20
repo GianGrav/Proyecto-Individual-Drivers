@@ -29,6 +29,7 @@ const DatailPage = () => {
     let forename = '';
     let surname = '';
     let imageUrl = '';
+    let teams = '';
 
     if (driverById && driverById.name && driverById.lastName) {
         forename = driverById.name;
@@ -42,6 +43,16 @@ const DatailPage = () => {
         imageUrl = driverById.image.url;
     } else if (typeof driverById?.image === 'string') {
         imageUrl = driverById.image;
+    }
+
+    if (driverById && driverById.teams || driverById && driverById.Teams) {
+        if (driverById.teams) {
+
+            teams = driverById.teams;
+        } else if (Array.isArray(driverById.Teams)) {
+
+            teams = driverById.Teams.map(team => team.name).join(', ');
+        }
     }
 
     return (
@@ -62,7 +73,7 @@ const DatailPage = () => {
                             `${forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname.slice(0, 1).toUpperCase() + surname.slice(1)}`
                         )}
                     </h2>
-                    <h2>{`Teams: ${driverById?.teams}`}</h2>
+                    <h2>{`Teams: ${teams}`}</h2>
                 </div>
                 <p className={Style.text_title}>{`ID: ${driverById?.id}`}</p>
             </div>

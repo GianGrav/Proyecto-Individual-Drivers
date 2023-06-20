@@ -1,9 +1,10 @@
 import Style from './driverCard.module.css';
 import { Link } from 'react-router-dom';
 
-const DriverCard = ({ id, name, image, teams, lastName }) => {
+const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
     let forename, surname;
     let imageUrl;
+    console.log(Teams);
 
     if (name && lastName) {
         forename = name;
@@ -19,6 +20,13 @@ const DriverCard = ({ id, name, image, teams, lastName }) => {
         imageUrl = image;
     }
 
+    let teamsText;
+    if (teams) {
+        teamsText = teams;
+    } else if (Teams && Teams.length > 0) {
+        teamsText = Teams[0].name;
+    }
+
     return (
         <div className={Style.card}>
             <Link to={`/details/${id}`}>
@@ -32,10 +40,9 @@ const DriverCard = ({ id, name, image, teams, lastName }) => {
                 <div className={Style.card_info}>
                     <div className={Style.text_body}>
                         <h2>
-                            {`${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname && surname.slice(0, 1).toUpperCase() + surname.slice(1)
-                                }`}
+                            {`${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname && surname.slice(0, 1).toUpperCase() + surname.slice(1)}`}
                         </h2>
-                        <h2>{`Teams: ${teams}`}</h2>
+                        {teamsText && <h2>{`Teams: ${teamsText}`}</h2>}
                     </div>
                 </div>
             </Link>

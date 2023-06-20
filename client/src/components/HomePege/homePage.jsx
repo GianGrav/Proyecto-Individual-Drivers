@@ -10,6 +10,7 @@ const visiblePageButtons = 5;
 const HomePage = () => {
 
     const allDrivers = useSelector(state => state.driver.allDrivers)
+    console.log(allDrivers);
 
     const [totalPages, setTotalPages] = useState(0)
 
@@ -49,7 +50,8 @@ const HomePage = () => {
 
             <div className={Style.cards}>
                 {
-                    allDrivers.slice(0 + (page * driversPerPage), driversPerPage + (page * driversPerPage)).map(({ id, name, lastName, teams, image }) => {
+                    allDrivers.slice(0 + (page * driversPerPage), driversPerPage + (page * driversPerPage)).map(({ id, name, lastName, teams, image, Teams }) => {
+                        console.log('Teams:', Teams)
                         return (
                             <>
                                 <DriverCard
@@ -59,6 +61,7 @@ const HomePage = () => {
                                     name={name}
                                     lastName={lastName}
                                     teams={teams}
+                                    Teams={Teams}
 
                                 />
                             </>

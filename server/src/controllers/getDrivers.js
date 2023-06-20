@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Driver } = require('../db');
+const { Driver, Teams } = require('../db');
 const URL = 'http://localhost:5000/drivers';
 
 const getDrivers = async (req, res) => {
@@ -9,7 +9,7 @@ const getDrivers = async (req, res) => {
 
 
 
-    const driversDb = await Driver.findAll();
+    const driversDb = await Driver.findAll({ include: Teams});
 
     const drivers = [...driversApi, ...driversDb];
 

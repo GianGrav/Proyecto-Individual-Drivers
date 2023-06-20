@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  allDrivers: [],
   drivers: [],
+  allDrivers: [],
   driver: {},
   teams: [],
   originFilter: "",
+  postDrivers: [],
 };
 
 export const driverSlice = createSlice({
@@ -15,7 +16,6 @@ export const driverSlice = createSlice({
     getDrivers: (state, { payload }) => {
       const data = payload;
       state.allDrivers = data;
-      console.log(state.allDrivers);
       state.drivers = data;
     },
     getTeams: (state, { payload }) => {
@@ -25,7 +25,6 @@ export const driverSlice = createSlice({
     orderByAtoZ: (state, { payload }) => {
       const data = payload;
       const driversCopy = [...state.allDrivers];
-      console.log(driversCopy);
       state.allDrivers = data === "asc"
         ? driversCopy.sort((a, b) => a.name.forename.localeCompare(b.name.forename))
         : driversCopy.sort((a, b) => b.name.forename.localeCompare(a.name.forename));
@@ -42,7 +41,7 @@ export const driverSlice = createSlice({
     
       const filteredDrivers = drivers.filter(driver => {
         const teams = driver.teams.split(", "); // Dividir la cadena de texto en un array de equipos
-        return teams.includes(payload.trim()); // Utilizar trim() para eliminar espacios en blanco alrededor del nombre del equipo
+        return teams.some(team => team.name === payload.trim()); // Utilizar trim() para eliminar espacios en blanco alrededor del nombre del equipo
       });
     
       state.allDrivers = filteredDrivers;
@@ -74,27 +73,11 @@ export const driverSlice = createSlice({
       state.allDrivers = data;
       state.drivers = data; 
     },
-    addDriver: async (state, { payload }) => {
-      const newDriver = {
-        name: payload.name,
-        lastName: payload.lastName,
-        nationality: payload.nationality,
-        image: payload.image,
-        dateOfBirth: payload.dateOfBirth,
-        description: payload.description,
-        teams: payload.selectedTeams,
-      };
-    
-      try {
-        const response = await axios.post('http://localhost:3001/drivers', newDriver);
-        const createdDriver = response.data;
-        const updatedDrivers = [...state.allDrivers, createdDriver];
-        return { ...state, allDrivers: updatedDrivers };
-      } catch (error) {
-        console.log('Error al crear el conductor:', error);
-        return state;
-      }
+    postDrivers: (state, { payload }) => {
+      const data = payload;
+      state.postDrivers = data;
     },
+    
   },
 });
 
@@ -107,7 +90,7 @@ export const {
   filterByOrigin,
   getDriverByName,
   getTeams,
-  addDriver,
+  postDrivers,
 } = driverSlice.actions;
 
 export default driverSlice.reducer;
