@@ -1,21 +1,16 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { getDrivers, orderByAtoZ, orderByDOB, filterByTeams, filterByOrigin, getTeams } from "../../redux/driverSlice";
+
 import SearchBar from "../SearchBar/searchBar";
+
 import axios from "axios";
-import {
-  getDrivers,
-  orderByAtoZ,
-  orderByDOB,
-  filterByTeams,
-  filterByOrigin,
-  getTeams,
-} from "../../redux/driverSlice";
+import styles from "./navBar.module.css";
 
 const NavBar = () => {
   const drivers = useSelector((state) => state.driver.allDrivers);
   const teams = useSelector((state) => state.driver.teams);
-  
 
   const { pathname } = useLocation();
 
@@ -68,34 +63,45 @@ const NavBar = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.navBar}>
+      <div className={styles.navBarLeft}>
         <Link to="/home">
-          <button onClick={getAllDrivers}>Home</button>
+          <button className={styles.navBarButton} onClick={getAllDrivers}>
+            Home
+          </button>
         </Link>
       </div>
 
-      <div>{pathname === "/home" ? <SearchBar /> : null}</div>
+      <div className={styles.navBarCenter}>
+        {pathname === "/home" && <SearchBar />}
+      </div>
 
-      <div>
+      <div className={styles.navBarRight}>
         {pathname === "/home" && (
           <>
-            <div>
+            <div className={styles.filterContainer}>
+              <label htmlFor="alphabetical">Alphabetical Order:</label>
               <select
                 name="alphabetical"
+                className={styles.select}
                 onChange={(e) => handleOrderByAtoZ(e.target.value)}
               >
                 <option disabled defaultValue>
-                  Alphabetical Order
+                  Select Order
                 </option>
                 <option value="asc">From A to Z</option>
                 <option value="desc">From Z to A</option>
               </select>
             </div>
-            <div>
-              <select name="dob" onChange={handleOrderByDOB}>
+            <div className={styles.filterContainer}>
+              <label htmlFor="dob">Date of Birth Order:</label>
+              <select
+                name="dob"
+                className={styles.select}
+                onChange={handleOrderByDOB}
+              >
                 <option disabled defaultValue>
-                  Date of Birth Order
+                  Select Order
                 </option>
                 <option value="asc">Oldest First</option>
                 <option value="desc">Youngest First</option>
@@ -105,13 +111,18 @@ const NavBar = () => {
         )}
       </div>
 
-      <div>
+      <div className={styles.navBarCenter}>
         {pathname === "/home" && (
           <>
-            <div>
-              <select name="teams" onChange={handleFilterByTeams}>
+            <div className={styles.filterContainer}>
+              <label htmlFor="teams">Filter by Team:</label>
+              <select
+                name="teams"
+                className={styles.select}
+                onChange={handleFilterByTeams}
+              >
                 <option disabled defaultValue>
-                  Filter by Team
+                  Select Team
                 </option>
                 {Array.isArray(teams) &&
                   teams.map((team, index) => (
@@ -121,14 +132,19 @@ const NavBar = () => {
                   ))}
               </select>
             </div>
-            <div>
-              <select name="origin" onChange={handleFilterByOrigin}>
+            <div className={styles.filterContainer}>
+              <label htmlFor="origin">Filter by Origin:</label>
+              <select
+                name="origin"
+                className={styles.select}
+                onChange={handleFilterByOrigin}
+              >
                 <option disabled defaultValue>
-                  Filter by Origin
+                  Select Origin
                 </option>
                 <option value="all">All</option>
-                <option value="numeric">Numeric IDs</option>
-                <option value="uuid">UUID IDs</option>
+                <option value="numeric">API DRIVERS</option>
+                <option value="uuid">DATA BASE DRIVERS</option>
               </select>
             </div>
           </>
@@ -136,9 +152,9 @@ const NavBar = () => {
       </div>
 
       {pathname !== "/newdriver" && (
-        <div>
+        <div className={styles.navBarRight}>
           <Link to="/newdriver">
-            <button>Create Driver</button>
+            <button className={styles.navBarButton}>Create Driver</button>
           </Link>
         </div>
       )}
@@ -147,3 +163,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

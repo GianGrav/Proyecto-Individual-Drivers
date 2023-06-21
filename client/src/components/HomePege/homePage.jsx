@@ -37,7 +37,7 @@ const HomePage = () => {
 
     return (
         <div className={Style.homePage}>
-            <div>
+            <div className={Style.botonesPagina}>
                 {page > 0 && (
                     <button type="" onClick={() => setPage(0)}>{'<<'}</button>
                 )}

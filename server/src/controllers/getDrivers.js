@@ -15,7 +15,7 @@ const getDrivers = async (req, res) => {
 
     const driversWithDefaultImage = drivers.map(driver => {
       if (!driver.image.url) {
-        driver.image.url = 'default.jpg';
+        driver.image.url = 'https://cdn-1.motorsport.com/images/amp/68eyZ1B0/s1000/f1-f1-logo-2017-f1-logo-6693340.jpg';
       }
       return driver;
     });
