@@ -2,9 +2,10 @@ import React from 'react';
 import styles from './driverCard.module.css';
 import { Link } from 'react-router-dom';
 
-const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
+const DriverCard = ({ id, name, image, teams, lastName, Teams, dob, birthDate }) => {
     let forename, surname;
     let imageUrl;
+    let fechaNacimiento;
     console.log(Teams);
 
     if (name && lastName) {
@@ -28,6 +29,12 @@ const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
         teamsText = Teams.map(team => team.name).join(', ');
     }
 
+    if (dob) {
+        fechaNacimiento = dob
+    } else if (birthDate) {
+        fechaNacimiento = birthDate
+    }
+
     return (
         <div className={styles.card}>
             <Link to={`/details/${id}`}>
@@ -44,6 +51,7 @@ const DriverCard = ({ id, name, image, teams, lastName, Teams }) => {
                             {`${forename && forename.slice(0, 1).toUpperCase() + forename.slice(1)} ${surname && surname.slice(0, 1).toUpperCase() + surname.slice(1)}`}
                         </h2>
                         {teamsText && <h2>{`Teams: ${teamsText}`}</h2>}
+                        <h2>{`DOB: ${fechaNacimiento}`}</h2>
                     </div>
                 </div>
             </Link>

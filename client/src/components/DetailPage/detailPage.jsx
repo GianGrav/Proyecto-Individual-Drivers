@@ -72,8 +72,8 @@ const DatailPage = () => {
           description = driverById.Description;
         }
       
-        if (driverById.dom) {
-          dom = driverById.dom;
+        if (driverById.dob) {
+          dom = driverById.dob;
         } else if (driverById.birthDate) {
           dom = driverById.birthDate;
         }

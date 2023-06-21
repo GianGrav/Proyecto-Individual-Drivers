@@ -49,7 +49,7 @@ const HomePage = () => {
 
             <div className={Style.cards}>
                 {
-                    allDrivers.slice(0 + (page * driversPerPage), driversPerPage + (page * driversPerPage)).map(({ id, name, lastName, teams, image, Teams }) => {
+                    allDrivers.slice(0 + (page * driversPerPage), driversPerPage + (page * driversPerPage)).map(({ id, name, lastName, teams, image, Teams, dob, birthDate }) => {
                         return (
                             <>
                                 <DriverCard
@@ -60,6 +60,8 @@ const HomePage = () => {
                                     lastName={lastName}
                                     teams={teams}
                                     Teams={Teams}
+                                    dob={dob}
+                                    birthDate={birthDate}
 
                                 />
                             </>
