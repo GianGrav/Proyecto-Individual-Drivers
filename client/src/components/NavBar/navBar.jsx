@@ -15,6 +15,7 @@ import {
 const NavBar = () => {
   const drivers = useSelector((state) => state.driver.allDrivers);
   const teams = useSelector((state) => state.driver.teams);
+  
 
   const { pathname } = useLocation();
 
@@ -56,8 +57,9 @@ const NavBar = () => {
 
   const handleFilterByTeams = (event) => {
     const selectedTeamId = event.target.value;
-    const selectedTeam = teams.find((team) => team.id === selectedTeamId);
-    const selectedTeamName = selectedTeam ? selectedTeam.name : null;
+    const selectedTeam = teams.find((team) => team.name === selectedTeamId);
+    const selectedTeamName = selectedTeam.name;
+    console.log(selectedTeamName);
     dispatch(filterByTeams(selectedTeamName));
   };
 
@@ -113,7 +115,7 @@ const NavBar = () => {
                 </option>
                 {Array.isArray(teams) &&
                   teams.map((team, index) => (
-                    <option key={index} value={team.id}>
+                    <option key={index} value={team.name}>
                       {team.name}
                     </option>
                   ))}

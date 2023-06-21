@@ -37,7 +37,7 @@ export const driverSlice = createSlice({
         : driversCopy.sort((a, b) => new Date(b.dob) - new Date(a.dob));
     },
     filterByTeams: (state, { payload }) => {
-      const filteredDrivers = state.allDrivers.filter((driver) => {
+      const filteredDrivers = state.drivers.filter((driver) => {
         const driverTeams = driver.teams ? driver.teams.split(",").map((team) => team.trim()) : [];
         const databaseTeams = driver.Teams ? driver.Teams.map((team) => team.name) : [];
         const allTeams = [...driverTeams, ...databaseTeams];
