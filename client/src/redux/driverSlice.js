@@ -26,35 +26,55 @@ export const driverSlice = createSlice({
       const data = payload;
       const driversCopy = [...state.allDrivers];
       state.allDrivers = data === "asc"
-        ? driversCopy.sort((a, b) => a.name.forename.localeCompare(b.name.forename))
-        : driversCopy.sort((a, b) => b.name.forename.localeCompare(a.name.forename));
-      state.drivers = state.allDrivers;
+        ? driversCopy.sort((a, b) => {
+            const nameA = a.name.forename || a.name;
+            const nameB = b.name.forename || b.name;
+            return nameA.localeCompare(nameB);
+          })
+        : driversCopy.sort((a, b) => {
+            const nameA = a.name.forename || a.name;
+            const nameB = b.name.forename || b.name;
+            return nameB.localeCompare(nameA);
+          });
     },
     orderByDOB: (state, { payload }) => {
       const data = payload;
-      const driversCopy = state.drivers.slice();
+      const driversCopy = state.allDrivers.slice();
       state.allDrivers = data === "asc"
-        ? driversCopy.sort((a, b) => new Date(a.dob) - new Date(b.dob))
-        : driversCopy.sort((a, b) => new Date(b.dob) - new Date(a.dob));
-      state.drivers = state.allDrivers;
-    },
-    filterByTeams: (state, { payload }) => {
-      const filteredDrivers = state.allDrivers.filter((driver) => {
-        const driverTeams = driver.teams ? driver.teams.split(",").map((team) => team.trim()) : [];
-        const databaseTeams = driver.Teams ? driver.Teams.map((team) => team.name) : [];
-        const allTeams = [...driverTeams, ...databaseTeams];
-        return allTeams.some((team) => team === payload);
+        ? driversCopy.sort((a, b) => {
+          const dateA = new Date(a.dob || a.birthDate);
+          const dateB = new Date(b.dob || b.birthDate);
+          return dateA - dateB;
+        })
+        : driversCopy.sort((a, b) => {
+          const dateA = new Date(a.dob || a.birthDate);
+          const dateB = new Date(b.dob || b.birthDate);
+          return dateB - dateA;
       });
 
-      state.drivers = filteredDrivers;
+    },
+
+    filterByTeams: (state, { payload }) => {
+      const selectedTeamName = payload;
+      const { drivers } = state;
+
+      let filteredDrivers = [];
+
+      if (selectedTeamName === "all") {
+        filteredDrivers = [...drivers];
+      } else {
+        const apiDrivers = drivers.filter((driver) => driver.teams && driver.teams.includes(selectedTeamName));
+        const databaseDrivers = drivers.filter((driver) => driver.Teams && driver.Teams.some((team) => team.name.includes(selectedTeamName)));
+        filteredDrivers = [...apiDrivers, ...databaseDrivers];
+      }
+
       state.allDrivers = filteredDrivers;
-      state = driverSlice.caseReducers.orderByAtoZ(state, { payload: "asc" });
     },
     filterByOrigin: (state, { payload }) => {
       const { drivers } = state;
-    
+
       let filteredDrivers = [];
-    
+
       if (payload === "all") {
         filteredDrivers = [...drivers];
       } else if (payload === "numeric") {
@@ -62,10 +82,9 @@ export const driverSlice = createSlice({
       } else if (payload === "uuid") {
         filteredDrivers = drivers.filter((driver) => typeof driver.id === "string");
       }
-    
+
       state.allDrivers = filteredDrivers;
     },
-    
     getDriverById: (state, { payload }) => {
       const data = payload;
       state.driver = data;

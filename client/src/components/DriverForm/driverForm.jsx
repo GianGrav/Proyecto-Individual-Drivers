@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getDrivers, postDrivers } from '../../redux/driverSlice';
+import Style from './driverForm.module.css'
 
 const DriverForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const teams = useSelector(state => state.driver.teams);
-
-    console.log(teams);
 
     const [driverData, setDriverData] = useState({
         name: '',
@@ -21,8 +20,8 @@ const DriverForm = () => {
         birthDate: '',
         teams: []
     });
-
     console.log(driverData);
+
     const [error, setError] = useState({});
 
     useEffect(() => {
@@ -112,14 +111,21 @@ const DriverForm = () => {
         }
     };
 
+    const getMaxDate = () => {
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const maxDateWithoutTime = formatDate(maxDate.toISOString());
+        return maxDateWithoutTime;
+      };
+
     return (
-        <div>
+        <div className={Style.form}>
             <h1>📍 FORM PAGE | Create a New Driver</h1>
 
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Name:</label><br />
-                    <input required type="text" name="name" value={driverData.name} onChange={handleChange} placeholder="Enter name" />
+                    <input className={Style.imput} required type="text" name="name" value={driverData.name} onChange={handleChange} placeholder="Enter name" />
                     {
                         error.name && <p>{error.name}</p>
                     }
@@ -128,7 +134,7 @@ const DriverForm = () => {
 
                 <div>
                     <label htmlFor="lastName">Last Name:</label><br />
-                    <input required type="text" name="lastName" value={driverData.lastName} onChange={handleChange} placeholder="Enter last name" />
+                    <input className={Style.imput} required type="text" name="lastName" value={driverData.lastName} onChange={handleChange} placeholder="Enter last name" />
                     {
                         error.lastName && <p>{error.lastName}</p>
                     }
@@ -137,7 +143,7 @@ const DriverForm = () => {
 
                 <div>
                     <label htmlFor="nationality">Nationality:</label><br />
-                    <input required type="text" name="nationality" value={driverData.nationality} onChange={handleChange} placeholder="Enter nationality" />
+                    <input className={Style.imput} required type="text" name="nationality" value={driverData.nationality} onChange={handleChange} placeholder="Enter nationality" />
                     {
                         error.nationality && <p>{error.nationality}</p>
                     }
@@ -146,26 +152,33 @@ const DriverForm = () => {
 
                 <div>
                     <label htmlFor="image">Image:</label><br />
-                    <input required type="text" name="image" value={driverData.image} onChange={handleChange} placeholder="Enter image URL" />
+                    <input className={Style.imput} required type="text" name="image" value={driverData.image} onChange={handleChange} placeholder="Enter image URL" />
                 </div>
                 <br />
 
                 <div>
-                    <label htmlFor="birthDate">Birth Date:</label><br />
-                    <input required type="date" name="birthDate" value={driverData.birthDate} onChange={handleChange} />
+                    <label htmlFor="birthDate">Fecha de Nacimiento:</label><br />
+                    <input
+                        required
+                        type="date"
+                        name="birthDate"
+                        max={getMaxDate()}
+                        value={driverData.birthDate}
+                        onChange={handleChange}
+                    />
                 </div>
                 <br />
 
                 <div>
                     <label htmlFor="description">Description:</label><br />
-                    <textarea required name="description" value={driverData.description} onChange={handleChange} placeholder="Enter description"></textarea>
+                    <textarea className={Style.imput} required name="description" value={driverData.description} onChange={handleChange} placeholder="Enter description"></textarea>
                     {
                         error.description && <p>{error.description}</p>
                     }
                 </div>
                 <br />
 
-                <div>
+                <div className={Style.teams}>
                     <label htmlFor="teams">Teams:</label>
                     <br />
                     {Array.isArray(teams) &&

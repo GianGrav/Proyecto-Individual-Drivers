@@ -6,7 +6,7 @@ const DriverCard = ({ id, name, image, teams, lastName, Teams, dob, birthDate })
     let forename, surname;
     let imageUrl;
     let fechaNacimiento;
-    console.log(Teams);
+
 
     if (name && lastName) {
         forename = name;
@@ -30,9 +30,13 @@ const DriverCard = ({ id, name, image, teams, lastName, Teams, dob, birthDate })
     }
 
     if (dob) {
-        fechaNacimiento = dob
+        fechaNacimiento = dob;
     } else if (birthDate) {
-        fechaNacimiento = birthDate
+        const birthDateObj = new Date(birthDate);
+        const year = birthDateObj.getFullYear();
+        const month = String(birthDateObj.getMonth() + 1).padStart(2, "0");
+        const day = String(birthDateObj.getDate()).padStart(2, "0");
+        fechaNacimiento = `${year}-${month}-${day}`;
     }
 
     return (

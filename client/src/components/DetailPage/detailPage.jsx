@@ -32,7 +32,7 @@ const DatailPage = () => {
     let teams = '';
     let nationality = '';
     let description = '';
-    let dom = '';
+    let dob = '';
 
 
     if (driverById && driverById.name && driverById.lastName) {
@@ -73,10 +73,14 @@ const DatailPage = () => {
         }
       
         if (driverById.dob) {
-          dom = driverById.dob;
-        } else if (driverById.birthDate) {
-          dom = driverById.birthDate;
-        }
+            dob = driverById.dob;
+          } else if (driverById.birthDate) {
+            const birthDateObj = new Date(driverById.birthDate);
+            const year = birthDateObj.getFullYear();
+            const month = String(birthDateObj.getMonth() + 1).padStart(2, "0");
+            const day = String(birthDateObj.getDate()).padStart(2, "0");
+            dob = `${year}-${month}-${day}`;
+          }
       }
 
     return (
@@ -101,7 +105,7 @@ const DatailPage = () => {
                         </h2>
                         <h2>{`Nationality: ${nationality}`}</h2>
                         <h2>{`Description: ${description}`}</h2>
-                        <h2>{`DOM: ${dom}`}</h2>
+                        <h2>{`DOB: ${dob}`}</h2>
                         <h2>{`Teams: ${teams}`}</h2>
                     </div>
                 </div>

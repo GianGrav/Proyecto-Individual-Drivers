@@ -2,18 +2,15 @@ import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDrivers, orderByAtoZ, orderByDOB, filterByTeams, filterByOrigin, getTeams } from "../../redux/driverSlice";
-
 import SearchBar from "../SearchBar/searchBar";
-
 import axios from "axios";
 import styles from "./navBar.module.css";
 
 const NavBar = () => {
-  const drivers = useSelector((state) => state.driver.allDrivers);
+  const drivers = useSelector((state) => state.driver.drivers);
   const teams = useSelector((state) => state.driver.teams);
 
   const { pathname } = useLocation();
-
   const dispatch = useDispatch();
 
   const URL = "http://localhost:3001/drivers";
@@ -52,10 +49,7 @@ const NavBar = () => {
 
   const handleFilterByTeams = (event) => {
     const selectedTeamId = event.target.value;
-    const selectedTeam = teams.find((team) => team.name === selectedTeamId);
-    const selectedTeamName = selectedTeam.name;
-    console.log(selectedTeamName);
-    dispatch(filterByTeams(selectedTeamName));
+    dispatch(filterByTeams(selectedTeamId));
   };
 
   const handleFilterByOrigin = (event) => {
@@ -121,9 +115,7 @@ const NavBar = () => {
                 className={styles.select}
                 onChange={handleFilterByTeams}
               >
-                <option disabled defaultValue>
-                  Select Team
-                </option>
+                <option value="all">All Teams</option>
                 {Array.isArray(teams) &&
                   teams.map((team, index) => (
                     <option key={index} value={team.name}>
@@ -139,9 +131,6 @@ const NavBar = () => {
                 className={styles.select}
                 onChange={handleFilterByOrigin}
               >
-                <option disabled defaultValue>
-                  Select Origin
-                </option>
                 <option value="all">All</option>
                 <option value="numeric">API DRIVERS</option>
                 <option value="uuid">DATA BASE DRIVERS</option>
@@ -163,4 +152,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
